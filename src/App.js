@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 
 
-//componente purro
+//componente puro
 export function Todo({ todo, index, completeTodo, removeTodo }) {
   return (
     <div
@@ -19,7 +19,7 @@ export function Todo({ todo, index, completeTodo, removeTodo }) {
   );
 }
 
-function TodoForm({ addTodo }) {
+export function TodoForm({ addTodo }) {
   const [value, setValue] = useState("");
 
   const handleSubmit = e => {

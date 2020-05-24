@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import App, { Todo } from "./App";
+import App, { Todo, TodoForm } from "./App";
 import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
@@ -21,7 +21,7 @@ describe("App", () => {
         isComplete: true,
         text: "lala"
       };
-
+      //injectamos
       const wrapper = shallow(
         <Todo
           completeTodo={completeTodo}
@@ -32,6 +32,7 @@ describe("App", () => {
       );
 
       //QUÉ queremos comprobar
+      //simulamos un comportamiento
       wrapper
         .find("button")
         .at(0) // de los dos botones escoge el primero
@@ -42,7 +43,6 @@ describe("App", () => {
       expect(completeTodo.mock.calls).toEqual([[5]]);
       expect(removeTodo.mock.calls).toEqual([]); //quiero que no se ejecute esta función
     });
-
 
     test("Ejecuta el método removeTodo cuando hago click sobre X", () => {
       //TODOS LOS DATOS NECESARIOS
@@ -76,7 +76,27 @@ describe("App", () => {
       //Asertion- lanzamos un error cuando algo no se cumple
       // mock utiliza toEqual para comparar. El mock debería de ser llamado una vez, con el valor de index, que en este caso es 5
       expect(removeTodo.mock.calls).toEqual([[5]]);
-      expect(completeTodo.mock.calls).toEqual([]); //quiero que no se ejecute 
+      expect(completeTodo.mock.calls).toEqual([]); //quiero que no se ejecute
+    });
+  });
+
+  describe("TodoForm", () => {
+    test("llamar al método addTodo cuando el formulario cambia su valor", () => {
+      //1-Mock
+      const addTodo = jest.fn();
+      const prevent = jest.fn(); // esto es rizar el rizo
+
+      //2-render
+      const wrapper = shallow(<TodoForm addTodo={addTodo} />);
+
+      //3-Simular el comportamiento
+      wrapper
+        .find("input")
+        .simulate("change", { target: { value: "mi nuevo to do" } });
+      wrapper.find("form").simulate("submit", { preventDefault: prevent });
+      //4-Asserts
+      expect(addTodo.mock.calls).toEqual([["mi nuevo to do"]]);
+      expect(prevent.mock.calls).toEqual([[]]);
     });
   });
 });
