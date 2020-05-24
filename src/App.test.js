@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import App, { Todo, TodoForm } from "./App";
+import App, { Todo, TodoForm ,useTodos} from "./App";
 import { shallow, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
@@ -97,6 +97,26 @@ describe("App", () => {
       //4-Asserts
       expect(addTodo.mock.calls).toEqual([["mi nuevo to do"]]);
       expect(prevent.mock.calls).toEqual([[]]);
+    });
+  });
+
+  describe("Custom Hook: useTodos", () => {
+    describe("addTodo", () => {
+        //los hooks no se pueden ir por ahi de parranda ellos solitos, siempre van asociados a un componente
+        //1-Definimos dicho componente:
+        const Test =(props)=>{
+          const hook= props.hooks();
+          return <div {...hook}/>;
+        }
+
+        //2-Enzyme render
+        const wrapper = shallow(<Test hooks={useTodos}/>);
+        //preguntamos por las props
+        let props = wrapper.find('div').props();
+        //ejecución 
+        props.addTodo('texto de prueba');
+        props = wrapper.find('div').props();
+        expect(props.todos[0]).toEqual({text:'texto de prueba'});
     });
   });
 });
