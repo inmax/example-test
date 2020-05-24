@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
 
-
 //componente puro
 export function Todo({ todo, index, completeTodo, removeTodo }) {
   return (
@@ -40,8 +39,8 @@ export function TodoForm({ addTodo }) {
     </form>
   );
 }
-
-function App() {
+//Custom hooks para poder reutilizar lógica
+export const useTodos = () => {
   const [todos, setTodos] = useState([
     {
       text: "Todo 1",
@@ -73,7 +72,16 @@ function App() {
     newTodos.splice(index, 1);
     setTodos(newTodos);
   };
+  return {
+    todos,
+    addTodo,
+    completeTodo,
+    removeTodo
+  };
+};
 
+function App() {
+  const { todos, addTodo, completeTodo, removeTodo } = useTodos();
   return (
     <div className="app">
       <div className="todo-list">
