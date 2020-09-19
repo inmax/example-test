@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 //Custom hooks para poder reutilizar lógica
 export const useTodos = () => {
   const [todos, setTodos] = useState([

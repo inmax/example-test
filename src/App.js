@@ -5,16 +5,13 @@ import {useTodos} from "hooks/useTodos"
 import "./App.css";
 
 
-
 function App() {
-
   const { todos, addTodo, completeTodo, removeTodo } = useTodos();
   return (
     <div className="app">
       <div className="todo-list">
 
         <TodoForm addTodo={addTodo} />
-
         {todos.map((todo, index) => (
           <Todo
             key={index}
